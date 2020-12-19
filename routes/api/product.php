@@ -5,11 +5,11 @@ $router->get('/products', '\Concrete\Package\CommunityStoreApi\Api\Product\Produ
     ->setScopes('cs:products:read');
 
 $router->get('/products/{pID}', '\Concrete\Package\CommunityStoreApi\Api\Product\ProductsController::read')
-    ->setRequirement('pID' ,'[0-9]+')
+    ->setRequirement('pID' ,'^[1-9][0-9]{0,9}')
     ->setScopes('cs:products:read');
 
 $router->patch('/products/{pID}', '\Concrete\Package\CommunityStoreApi\Api\Product\ProductsController::write')
-    ->setRequirement('pID' ,'[0-9]+')
+    ->setRequirement('pID' ,'^[1-9][0-9]{0,9}')
     ->setScopes('cs:products:write');
 
 $router->get('/skus/{sku}', '\Concrete\Package\CommunityStoreApi\Api\Product\ProductsController::stockLevelReadSku')

@@ -5,10 +5,11 @@ $router->get('/orders', '\Concrete\Package\CommunityStoreApi\Api\Order\OrdersCon
     ->setScopes('cs:orders:read');
 
 $router->get('/orders/{oID}', '\Concrete\Package\CommunityStoreApi\Api\Order\OrdersController::read')
-    ->setRequirement('oID' ,'[0-9]+')
+    ->setRequirement('oID' ,'^[1-9][0-9]{0,9}')
     ->setScopes('cs:orders:read');
 
 $router->patch('/orders/{oID}', '\Concrete\Package\CommunityStoreApi\Api\Order\OrdersController::write')
+    ->setRequirement('oID' ,'^[1-9][0-9]{0,9}')
     ->setScopes('cs:orders:write');
 
 $router->get('/fulfilmentstatuses', '\Concrete\Package\CommunityStoreApi\Api\Order\OrdersController::orderStatuses')
