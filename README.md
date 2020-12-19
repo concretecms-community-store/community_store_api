@@ -28,6 +28,8 @@ To configure an integration:
 When running concrete5 with Apache with CGI/FastCGI, Authorization headers may not be passed to PHP, resulting in a 'Missing Authorization header' error message.
 Adding the following line to an .htaccess file can correct this:
 
+`SetEnvIf Authorization .+ HTTP_AUTHORIZATION=$0`
+
 ## Usage
 Once an integration has been created through concrete5's dashboard, the Client ID and Client Secret can be used to generate access tokens, and those are then used to access the API.
 
