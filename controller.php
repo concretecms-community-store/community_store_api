@@ -8,6 +8,7 @@ class Controller extends Package
     protected $pkgHandle = 'community_store_api';
     protected $appVersionRequired = '8.4';
     protected $pkgVersion = '0.9.3';
+    protected $packageDependencies = ['community_store'=>'2.0'];
 
     protected $pkgAutoloaderRegistries = [
         'src/CommunityStoreApi' => '\Concrete\Package\CommunityStoreApi',
@@ -25,15 +26,8 @@ class Controller extends Package
 
     public function install()
     {
-        $app = ApplicationFacade::getFacadeApplication();
-        $installed = $app->make(PackageService::class)->getInstalledHandles();
-
-        if(!(is_array($installed) && in_array('community_store',$installed)) ) {
-            throw new ErrorException(t('This package requires that Community Store be installed'));
-        } else {
-            $pkg = parent::install();
-            $this->addScopes();
-        }
+        parent::install();
+        $this->addScopes();
     }
 
     public function upgrade()
