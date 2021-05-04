@@ -134,7 +134,7 @@ class ProductsController extends ApiController
         $variation = false;
 
         if ($sku) {
-            $results = $db->query('SELECT pID FROM CommunityStoreProducts WHERE pSKU = ?');
+            $results = $db->query('SELECT pID FROM CommunityStoreProducts WHERE pSKU = ?', [ $sku ]);
 
             while ($value = $results->fetchRow()) {
                 $pID = (int)$value['pID'];
@@ -144,7 +144,7 @@ class ProductsController extends ApiController
                 $product = Product::getByID($pID);
             }
 
-            $results = $db->query('SELECT pvID FROM CommunityStoreProductVariations WHERE pSKU = ?');
+            $results = $db->query('SELECT pvID FROM CommunityStoreProductVariations WHERE pvSKU = ?', [ $sku ]);
 
             while ($value = $results->fetchRow()) {
                 $pvID = (int)$value['pvID'];
@@ -195,7 +195,7 @@ class ProductsController extends ApiController
         $variation = false;
 
         if ($sku) {
-            $results = $db->query('SELECT pID FROM CommunityStoreProducts WHERE pSKU = ?');
+            $results = $db->query('SELECT pID FROM CommunityStoreProducts WHERE pSKU = ?', [ $sku ]);
 
             while ($value = $results->fetchRow()) {
                 $pID = (int)$value['pID'];
@@ -205,7 +205,7 @@ class ProductsController extends ApiController
                 $product = Product::getByID($pID);
             }
 
-            $results = $db->query('SELECT pvID FROM CommunityStoreProductVariations WHERE pSKU = ?');
+            $results = $db->query('SELECT pvID FROM CommunityStoreProductVariations WHERE pvSKU = ?', [ $sku ]);
 
             while ($value = $results->fetchRow()) {
                 $pvID = (int)$value['pvID'];
