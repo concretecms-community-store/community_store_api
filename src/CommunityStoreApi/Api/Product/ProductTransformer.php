@@ -10,7 +10,7 @@ use League\Fractal\TransformerAbstract;
 class ProductTransformer extends TransformerAbstract
 {
     /**
-     * Basic transforming of a page into an array
+     * Basic transforming of a product into an array
      *
      * @param Product $product
      * @return array

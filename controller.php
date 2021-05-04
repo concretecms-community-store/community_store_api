@@ -7,7 +7,7 @@ class Controller extends Package
 {
     protected $pkgHandle = 'community_store_api';
     protected $appVersionRequired = '8.4';
-    protected $pkgVersion = '0.9.3';
+    protected $pkgVersion = '0.9.4';
     protected $packageDependencies = ['community_store'=>'2.0'];
 
     protected $pkgAutoloaderRegistries = [
