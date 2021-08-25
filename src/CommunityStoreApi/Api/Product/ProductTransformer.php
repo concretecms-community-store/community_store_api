@@ -143,6 +143,7 @@ class ProductTransformer extends TransformerAbstract
             'options'=>$options,
             'variations'=>$variations,
             'date_added' => (array)$product->getDateAdded(),
+            'date_updated' => (array)$product->getDateUpdated(),
             'shipping' => [
                 'shippable' => $product->isShippable(),
                 'width' => $product->getWidth(),
@@ -150,11 +151,13 @@ class ProductTransformer extends TransformerAbstract
                 'length' => $product->getLength(),
                 'number_items' => $product->getNumberItems(),
                 'stacked_height'=> $product->getStackedHeight(),
-                'separate_ship' => $product->getSeperateShip()
+                'separate_ship' => $product->isSeparateShip()
             ]
         ];
 
+
         unset($data['date_added']['timezone_type']);
+        unset($data['date_updated']['timezone_type']);
 
         return $data;
     }

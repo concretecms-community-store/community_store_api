@@ -263,6 +263,10 @@ Get a product
         "date_added": {
             "date": "2020-10-05 15:41:00.000000",
             "timezone": "America/Phoenix"
+        },
+       "date_updated": {
+            "date": "2020-10-05 15:41:00.000000",
+            "timezone": "America/Phoenix"
         }
     }
 }

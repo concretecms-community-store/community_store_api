@@ -240,11 +240,11 @@ class ProductsController extends ApiController
 
         if ($variation) {
             if (isset($data['data']['stock_level'])) {
-                $variation->setStockLevel($data['data']['stock_level']);
+                $variation->setVariationStockLevel($data['data']['stock_level']);
             }
 
             if (isset($data['data']['stock_unlimited'])) {
-                $variation->setIsUnlimited((bool)$data['data']['stock_unlimited']);
+                $variation->setVariationIsUnlimited((bool)$data['data']['stock_unlimited']);
             }
 
             $variation->save();
