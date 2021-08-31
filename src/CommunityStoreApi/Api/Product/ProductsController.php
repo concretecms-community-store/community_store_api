@@ -1,6 +1,7 @@
 <?php
 namespace Concrete\Package\CommunityStoreApi\Api\Product;
 
+use Carbon\Carbon;
 use Concrete\Core\Http\Request;
 use League\Fractal\Resource\Item;
 use Concrete\Core\Api\ApiController;
@@ -97,6 +98,39 @@ class ProductsController extends ApiController
 
         if (!$paging) {
             $paging = 20;
+        }
+
+        $filter = $this->request->get('filter');
+
+        if ($filter) {
+            $filtervars = explode(' ', $filter);
+
+            if ($filtervars[0] == 'date_updated' || $filtervars[0] == 'date_added' ) {
+                if (isset($filtervars[2])) {
+                    $filterDate = trim($filtervars[2], "'");
+
+                    $field = 'pDateUpdated';
+
+                    if ($filtervars[0] == 'date_added') {
+                        $field = 'pDateAdded';
+                    }
+
+                    $comparison = '>';
+
+                    if ($filtervars[1] == 'lt') {
+                        $comparison = '<';
+                    }
+
+                    if ($filtervars[1] == 'eq') {
+                        $comparison = '=';
+                    }
+
+                    if ($filterDate) {
+                        $date = Carbon::parse($filterDate);
+                        $productsList->getQueryObject()->andWhere($field . ' ' . $comparison .' "' . $date . '"');
+                    }
+                }
+            }
         }
 
         $productsList->setItemsPerPage($paging);

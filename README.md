@@ -226,6 +226,11 @@ The products are paginated, returning 20 products at a time. Note in the respons
 The `links` within the pagination data include when applicable previous and next URLs, to navigate the pages of products. No more pages are available when the `next` value is not returned.
 The GET attribute `page` is used in the API call to select which page to return.
 
+##### Filtering Products
+Products can be filtered through the use of a `filter` parameter, following the pattern:
+`?filter=date_added gt '2021-01-01T20:00'`
+Currently, `date_added` and `date_updated` fields can be filtered, with gt, lt and eq comparisons.
+
 #### GET /cs/api/v1/products/pID
 Get a product
 - scope required: cs:products:read
