@@ -1,0 +1,45 @@
+<?php
+// FETCH TOKEN
+$curl = curl_init();
+
+$domain = 'https://communitystoreinstall.com';
+$clientID = 'ABC123';
+$clientSecret = 'XYZ123';
+$scope = 'cs:orders:read cs:products:write cs:products:read cs:products:write';
+
+curl_setopt_array($curl, [
+    CURLOPT_URL => $domain . '/oauth/2.0/token',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_CUSTOMREQUEST => 'POST',
+    CURLOPT_POSTFIELDS => [
+        'client_id' => $clientID,
+        'client_secret' => $clientSecret,
+        'scope' => $scope,
+        'grant_type' => 'client_credentials'
+    ],
+]);
+
+$response = curl_exec($curl);
+$tokenData = json_decode($response);
+$accessToken = $tokenData->access_token;
+
+
+// FETCH DATA FROM API
+$curl = curl_init();
+
+curl_setopt_array($curl, [
+    CURLOPT_URL => $domain . '/cs/api/v1/products',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_CUSTOMREQUEST => 'GET',
+    CURLOPT_HTTPHEADER => [
+        'Authorization: Bearer ' . $accessToken,
+    ],
+]);
+
+$response = curl_exec($curl);
+curl_close($curl);
+
+$productData = json_decode($response, true);
+echo '<pre>';
+print_r($productData);
+echo '</pre>';

@@ -104,6 +104,7 @@ class ProductTransformer extends TransformerAbstract
             }
 
             $varationData = [
+                'id' => $variation->getID(),
                 'sku' => $variation->getVariationSKU(),
                 'barcode' => $variation->getVariationBarcode(),
                 'stock_unlimited' => $variation->isUnlimited(),
