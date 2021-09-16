@@ -18,5 +18,10 @@ $router->get('/skus/{sku}', '\Concrete\Package\CommunityStoreApi\Api\Product\Pro
 $router->patch('/skus/{sku}', '\Concrete\Package\CommunityStoreApi\Api\Product\ProductsController::stockLevelWriteSku')
     ->setScopes('cs:products:write');
 
+$router->get('/variations/{id}', '\Concrete\Package\CommunityStoreApi\Api\Product\ProductsController::stockLevelReadVariation')
+    ->setScopes('cs:products:read');
+
+$router->patch('/variations/{id}', '\Concrete\Package\CommunityStoreApi\Api\Product\ProductsController::stockLevelWriteVariation')
+    ->setScopes('cs:products:write');
 
 

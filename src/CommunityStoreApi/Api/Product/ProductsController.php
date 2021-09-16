@@ -314,4 +314,74 @@ class ProductsController extends ApiController
 
     }
 
+    public function stockLevelReadVariation($id) {
+        $variation = false;
+
+        if ($id) {
+            $variation = ProductVariation::getByID($id);
+        }
+
+        if (!$variation) {
+            return $this->error(t('Variation not found'), 404);
+        }
+
+        if ($variation) {
+            $resource = new Item($variation, function (ProductVariation $variation)  {
+                return [
+                    'id' => $variation->getID(),
+                    'product_id' => $variation->getProduct()->getID(),
+                    'sku' => $variation->getVariationSKU(),
+                    'name' => $variation->getProduct()->getName(),
+                    'stock_level' => (float)$variation->getStockLevel(),
+                    'stock_unlimited' => $variation->isUnlimited(),
+                    'variation' =>true
+                ];
+            });
+        }
+
+        return $resource;
+    }
+
+    public function stockLevelWriteVariation($id) {
+        if ($id) {
+            $variation = ProductVariation::getByID($id);
+        }
+
+        if (!$variation) {
+            return $this->error(t('Variation not found'), 404);
+        }
+
+        $data = json_decode($this->request->getContent(), true);
+
+        if (!$data) {
+            return $this->error(t('Bad Request'), 400);
+        }
+
+        if ($variation) {
+            if (isset($data['data']['stock_level'])) {
+                $variation->setVariationStockLevel($data['data']['stock_level']);
+            }
+
+            if (isset($data['data']['stock_unlimited'])) {
+                $variation->setVariationIsUnlimited((bool)$data['data']['stock_unlimited']);
+            }
+
+            $variation->save();
+
+            $resource = new Item($variation, function (ProductVariation $variation) {
+                return [
+                    'id' => $variation->getID(),
+                    'product_id' => $variation->getProduct()->getID(),
+                    'sku' => $variation->getVariationSKU(),
+                    'name' => $variation->getProduct()->getName(),
+                    'stock_level' => (float)$variation->getStockLevel(),
+                    'stock_unlimited' => $variation->isUnlimited(),
+                    'variation' =>true
+                ];
+            });
+        }
+        return $resource;
+    }
+
+
 }
