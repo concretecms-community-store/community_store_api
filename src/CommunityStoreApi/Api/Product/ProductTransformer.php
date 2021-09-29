@@ -111,6 +111,7 @@ class ProductTransformer extends TransformerAbstract
                 'stock_level' => (float)$variation->getStockLevel(),
                 'price' => $variation->getVariationPrice(),
                 'wholesale_price' => $variation->getVariationWholesalePrice(),
+                'cost_price' => $variation->getVariationCostPrice(),
                 'primary_image'=> $variationImage,
                 'options' =>$variationOptionData,
                 'shipping' => [
@@ -137,6 +138,7 @@ class ProductTransformer extends TransformerAbstract
             'brand' => $product->getManufacturer(),
             'price' => $product->getPrice(),
             'wholesale_price' => $product->getWholesalePriceValue(),
+            'cost_price' => $product->getCostPrice(),
             'primary_image'=>$primaryImageURL,
             'additional_images'=>$secondaryUrls,
             'groups'=>$outputGroups,
