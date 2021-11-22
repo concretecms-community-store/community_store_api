@@ -170,7 +170,7 @@ class ProductsController extends ApiController
         if ($sku) {
             $results = $db->query('SELECT pID FROM CommunityStoreProducts WHERE pSKU = ?', [ $sku ]);
 
-            while ($value = $results->fetchRow()) {
+            while ($value = $results->fetch()) {
                 $pID = (int)$value['pID'];
             }
 
@@ -180,7 +180,7 @@ class ProductsController extends ApiController
 
             $results = $db->query('SELECT pvID FROM CommunityStoreProductVariations WHERE pvSKU = ?', [ $sku ]);
 
-            while ($value = $results->fetchRow()) {
+            while ($value = $results->fetch()) {
                 $pvID = (int)$value['pvID'];
             }
 
@@ -231,7 +231,7 @@ class ProductsController extends ApiController
         if ($sku) {
             $results = $db->query('SELECT pID FROM CommunityStoreProducts WHERE pSKU = ?', [ $sku ]);
 
-            while ($value = $results->fetchRow()) {
+            while ($value = $results->fetch()) {
                 $pID = (int)$value['pID'];
             }
 
@@ -241,7 +241,7 @@ class ProductsController extends ApiController
 
             $results = $db->query('SELECT pvID FROM CommunityStoreProductVariations WHERE pvSKU = ?', [ $sku ]);
 
-            while ($value = $results->fetchRow()) {
+            while ($value = $results->fetch()) {
                 $pvID = (int)$value['pvID'];
             }
 
