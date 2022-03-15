@@ -112,6 +112,7 @@ class ProductTransformer extends TransformerAbstract
                 'price' => $variation->getVariationPrice(),
                 'wholesale_price' => $variation->getVariationWholesalePrice(),
                 'cost_price' => $variation->getVariationCostPrice(),
+                'sale_price' => $variation->getVariationSalePrice(),
                 'primary_image'=> $variationImage,
                 'options' =>$variationOptionData,
                 'shipping' => [
@@ -139,6 +140,9 @@ class ProductTransformer extends TransformerAbstract
             'price' => $product->getPrice(),
             'wholesale_price' => $product->getWholesalePriceValue(),
             'cost_price' => $product->getCostPrice(),
+            'sale_price' => $product->getSalePriceValue(),
+            'sale_start' => $product->getSaleStart() ? (array)$product->getSaleStart() : null,
+            'sale_end' =>  $product->getSaleEnd() ? (array)$product->getSaleEnd() : null,
             'primary_image'=>$primaryImageURL,
             'additional_images'=>$secondaryUrls,
             'groups'=>$outputGroups,
@@ -161,6 +165,9 @@ class ProductTransformer extends TransformerAbstract
 
         unset($data['date_added']['timezone_type']);
         unset($data['date_updated']['timezone_type']);
+
+        unset($data['sale_start']['timezone_type']);
+        unset($data['sale_end']['timezone_type']);
 
         return $data;
     }
