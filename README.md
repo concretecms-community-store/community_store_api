@@ -2,7 +2,7 @@
 
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
 
-A concrete5 add-on that provides a RESTful API for Community Store data, returning and receiving JSON data.
+A Concrete CMS add-on that provides a RESTful API for Community Store data, returning and receiving JSON data.
 
 ## Current Functionality
 
