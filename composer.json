@@ -1,0 +1,11 @@
+{
+    "name": "concretecms-community-store/community_store_api",
+    "type": "concrete5-package",
+    "license": "MIT",
+    "description": "Provides a RESTful API for ConcreteCMS Community Store",
+    "homepage": "https://github.com/concretecms-community-store/community_store_api",
+    "support": {
+        "issues": "https://github.com/concretecms-community-store/community_store_api/issues",
+        "source": "https://github.com/concretecms-community-store/community_store_api"
+    }
+}

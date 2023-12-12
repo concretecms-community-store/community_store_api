@@ -1,0 +1,3 @@
+/.* export-ignore
+/examples/
+/README.md export-ignore
