@@ -327,6 +327,10 @@ Get some Comminity Store configuration value
 - example response:
   ```json
   {
-      "currency": "EUR"
+      "currency": {
+          "code": "EUR",
+          "symbol": "€",
+          "decimal_digits": 2
+      }
   }
   ```
