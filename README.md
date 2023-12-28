@@ -36,7 +36,7 @@ Once an integration has been created through concrete5's dashboard, the Client I
 Request access tokens by sending a POST request to the URL: `/oauth/2.0/token`, sending in the body:
 
 - grant_type: "client_credentials"
-- scope: "cs:orders:read cs:products:write cs:products:read cs:products:write"
+- scope: "cs:orders:read cs:products:write cs:products:read cs:products:write cs:config:read"
 - client_id 
 - client_secret
 
@@ -315,3 +315,22 @@ Update the stock level of a product or variation by SKU
     }
 }
 ```
+
+
+### Miscellaneous endpoints
+
+#### GET /cs/api/v1/config
+Get some Comminity Store configuration value
+
+- scope required: cs:config:read
+- response: JSON object whose keys are the configuration keys, and values are their values
+- example response:
+  ```json
+  {
+      "currency": {
+          "code": "EUR",
+          "symbol": "€",
+          "decimal_digits": 2
+      }
+  }
+  ```

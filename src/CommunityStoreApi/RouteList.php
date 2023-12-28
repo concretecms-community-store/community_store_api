@@ -26,5 +26,6 @@ class RouteList implements RouteListInterface
 
         $api->routes('api/order.php', 'community_store_api');
         $api->routes('api/product.php', 'community_store_api');
+        $api->routes('api/config.php', 'community_store_api');
     }
 }
