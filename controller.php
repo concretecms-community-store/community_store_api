@@ -79,6 +79,7 @@ class Controller extends Package
         $this->addScope('cs:products:write', t('Write Community Store product information'));
         $this->addScope('cs:orders:read', t('Read Community Store order information'));
         $this->addScope('cs:orders:write',t('Write Community Store order information'));
+        $this->addScope('cs:config:read', t('Read Community Store configuration'));
     }
 
     private function removeScopes()
@@ -87,5 +88,6 @@ class Controller extends Package
         $this->removeScope('cs:products:write');
         $this->removeScope('cs:orders:read');
         $this->removeScope('cs:orders:write');
+        $this->removeScope('cs:config:read');
     }
 }
