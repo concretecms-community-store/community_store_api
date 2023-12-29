@@ -167,7 +167,13 @@ class OrderTransformer extends TransformerAbstract
             'attributes' => $attributes
         ];
 
-
+        if ($order->getRefunded()) {
+            $data['refunded'] = [
+                'date' => (array) $order->getRefunded(),
+                'reason' => (string) $order->getRefundReason(),
+            ];
+            unset($data['refunded']['date']['timezone_type']);
+        }
 
         if (!Config::get('community_store.vat_number')) {
             unset($data['customer']['billing']['vat_number']);
