@@ -9,6 +9,7 @@ use League\Fractal\Pagination\PagerfantaPaginatorAdapter;
 use Concrete\Package\CommunityStore\Src\CommunityStore\Order\Order;
 use Concrete\Package\CommunityStoreApi\Api\Order\OrderStatus\OrderStatusTransformer;
 use Concrete\Package\CommunityStore\Src\CommunityStore\Order\OrderStatus\OrderStatus as OrderStatus;
+use RuntimeException;
 
 class OrdersController extends ApiController
 {
@@ -94,19 +95,45 @@ class OrdersController extends ApiController
      *
      * @return \League\Fractal\Resource\Collection
      */
-
     public function all()
     {
         $orderList = new OrderList();
 
         $paging = $this->request->get('paging');
-
-        if (!$paging) {
-            $paging = 20;
+        $paging = $paging && is_numeric($paging) ? (int) $paging : 0;
+        $orderList->setItemsPerPage($paging > 0 ? $paging : 20);
+        if (($value = $this->request->query->get('status', '')) !== '') {
+            $orderList->setStatus($value);
         }
-
-        $orderList->setItemsPerPage($paging);
-
+        if (($value = $this->request->query->get('paymentStatus', '')) !== '') {
+            $orderList->setPaymentStatus($value);
+        }
+        if (($value = $this->request->query->get('fromDate', '')) !== '') {
+            $orderList->setFromDate($value);
+        }
+        if (($value = $this->request->query->get('toDate', '')) !== '') {
+            $orderList->setToDate($value);
+        }
+        if (($value = filter_var($this->request->query->get('paid'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE)) !== null) {
+            $orderList->setPaid($value);
+        }
+        if (($value = filter_var($this->request->query->get('cancelled'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE)) !== null) {
+            $orderList->setCancelled($value);
+        }
+        if (($value = filter_var($this->request->query->get('refunded'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE)) !== null) {
+            $orderList->setRefunded($value);
+        }
+        if (($value = filter_var($this->request->query->get('shippable'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE)) !== null) {
+            $orderList->setIsShippable($value);
+        }
+        $orderIDs = $this->getOrderIDsFromRequest();
+        if ($orderIDs !== []) {
+            if (!method_exists($orderList, 'setOrderIDs')) {
+                throw new RuntimeException('You need to upgrade Community Store in order to filter by order ID(s)');
+            }
+            $orderList->setOrderIDs($orderIDs);
+        }
+        
         $factory = new PaginationFactory($this->app->make(Request::class));
         $paginator = $factory->createPaginationObject($orderList);
         $orders = $paginator->getCurrentPageResults();
@@ -133,5 +160,21 @@ class OrdersController extends ApiController
         $resource = new Collection($orderStatuses, new OrderStatusTransformer());
 
         return $resource;
+    }
+
+    /**
+     * @return array
+     */
+    private function getOrderIDsFromRequest()
+    {
+        $qs = $this->request->query->all();
+        if (isset($qs['id']) && is_array($qs['id'])) {
+            return $qs['id'];
+        }
+        if (is_numeric($orderID = $this->request->query->get('id'))) {
+            return [$orderID];
+        }
+
+        return [];
     }
 }
