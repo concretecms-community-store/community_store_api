@@ -145,6 +145,21 @@ The orders are paginated, returning 20 orders at a time. Note in the response th
 The `links` within the pagination data include when applicable previous and next URLs, to navigate the pages of orders. No more pages are available when the `next` value is not returned.
 The GET attribute `page` is used in the API call to select which page to return.
 
+##### Filtering orders
+
+You can use querystring parameters to filter the results.
+Here's a list of accepted querystring parameters:
+
+- `status`: the status of the orders (predefined statuses are `incomplete`, `processing`, `shipped`, `delivered`, `nodelivery`, and `returned`)
+- `paymentStatus`: the status of the order payments (`paid`, `unpaid`, `cancelled`, `refunded`, or `incomplete`)
+- `fromDate`: the initial date of the orders (format: YYYY-MM-DD)
+- `toDate`: the final date of the orders (format: YYYY-MM-DD)
+- `paid`: set to 0 for unpaid or refunded orders, 1 for paid and not refunded orders
+- `cancelled`: set to 0 to exclude cancelled orders, 1 to retrieve only cancelled orders
+- `refunded`: set to 0 to exclude refunded orders, 1 to retrieve only refunded orders
+- `shippable`: set to 0 to exclude shippable orders, 1 to retrieve only shippable orders
+- `id`: the order ID. You can also query for more IDs using an array (for example: `orders?id[]=1&id[]=2`) (requires Community Store with [this pull request](https://github.com/concretecms-community-store/community_store/pull/833))
+
 #### GET /cs/api/v1/orders/oID
 Get an order
 - scope required: cs:orders:read
