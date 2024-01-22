@@ -114,16 +114,16 @@ class OrdersController extends ApiController
         if (($value = $this->request->query->get('toDate', '')) !== '') {
             $orderList->setToDate($value);
         }
-        if (($value = filter_var($this->request->query->get('paid'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE)) !== null) {
+        if (($value = $this->getBoolFromQS('paid')) !== null) {
             $orderList->setPaid($value);
         }
-        if (($value = filter_var($this->request->query->get('cancelled'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE)) !== null) {
+        if (($value = $this->getBoolFromQS('cancelled')) !== null) {
             $orderList->setCancelled($value);
         }
-        if (($value = filter_var($this->request->query->get('refunded'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE)) !== null) {
+        if (($value = $this->getBoolFromQS('refunded')) !== null) {
             $orderList->setRefunded($value);
         }
-        if (($value = filter_var($this->request->query->get('shippable'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE)) !== null) {
+        if (($value = $this->getBoolFromQS('shippable')) !== null) {
             $orderList->setIsShippable($value);
         }
         $orderIDs = $this->getOrderIDsFromRequest();
@@ -176,5 +176,17 @@ class OrdersController extends ApiController
         }
 
         return [];
+    }
+
+    /**
+     * @param string $key
+     *
+     * @return bool|null
+     */
+    private function getBoolFromQS($key)
+    {
+        $raw = $this->request->query->get($key);
+
+        return $raw === null ? null : filter_var($raw, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
     }
 }
