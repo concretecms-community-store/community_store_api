@@ -4,21 +4,27 @@ namespace Concrete\Package\CommunityStoreApi\Api\Config;
 
 use Concrete\Core\Api\ApiController;
 use Concrete\Core\Config\Repository\Repository;
+use Concrete\Core\Package\PackageService;
 use Concrete\Package\CommunityStore\Src\CommunityStore\Utilities\Price;
 use Punic\Currency;
 use Punic\Data;
 
 class ConfigController extends ApiController
 {
-
     /**
      * @var \Concrete\Core\Config\Repository\Repository
      */
     protected $config;
 
-    public function __construct(Repository $config)
+    /**
+     * @var \Concrete\Core\Package\PackageService
+     */
+    protected $packageService;
+
+    public function __construct(Repository $config, PackageService $packageService)
     {
         $this->config = $config;
+        $this->packageService = $packageService;
     }
 
     /**
@@ -29,11 +35,19 @@ class ConfigController extends ApiController
     public function read()
     {
         $currencyCode = (string) $this->config->get('community_store.currency');
+        $csPackage = $this->packageService->getByHandle('community_store');
+        $csApiPackage = $this->packageService->getByHandle('community_store_api');
         $config = [
             'currency' => [
                 'code' => $currencyCode,
                 'symbol' => $this->getCurrencySymbol($currencyCode),
                 'decimal_digits' => $this->getDecimalDigits($currencyCode),
+            ],
+            'community_store' => [
+                'version' => $csPackage->getPackageVersion(),
+            ],
+            'community_store_api' => [
+                'version' => $csApiPackage->getPackageVersion(),
             ],
         ];
 
