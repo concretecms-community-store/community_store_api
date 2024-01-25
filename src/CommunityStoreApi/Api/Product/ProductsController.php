@@ -144,14 +144,12 @@ class ProductsController extends ApiController
         $products = $paginator->getCurrentPageResults();
 
         $fanta = new PagerfantaPaginatorAdapter($paginator, function (int $page)  {
-            $path = $this->request->getUri();
-            $pathInfo = parse_url($path);
-            $queryString = $pathInfo['query'];
+            $url = $this->request->getUri();
+            $queryString = parse_url($url, PHP_URL_QUERY);
             parse_str($queryString, $queryArray);
             $queryArray['page'] = $page;
-            $newQueryStr = http_build_query($queryArray);
 
-            return $pathInfo['scheme'] . '://' . $pathInfo['host']  . $pathInfo['path'] . '?' . $newQueryStr;
+            return preg_split('/[\?#]/', $url)[0] . '?' . http_build_query($queryArray);
         });
 
         $resource = new Collection($products, new ProductTransformer);
