@@ -49,6 +49,9 @@ class ConfigController extends ApiController
             'community_store_api' => [
                 'version' => $csApiPackage->getPackageVersion(),
             ],
+            'system' => [
+                'time_zone' => (string) date_default_timezone_get(),
+            ],
         ];
 
         return $this->transform($config, new ConfigTransformer());
