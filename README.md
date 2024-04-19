@@ -25,12 +25,18 @@ To configure an integration:
 - Record the *Client ID* and *Client Secret* values generated
 
 ## Missing Authorization Header
+
 When running concrete5 with Apache with CGI/FastCGI, Authorization headers may not be passed to PHP, resulting in a 'Missing Authorization header' error message.
 Adding the following line to an .htaccess file can correct this:
 
 `SetEnvIf Authorization .+ HTTP_AUTHORIZATION=$0`
 
-## Usage
+## Usage with PHP
+
+If you need to access the Community Store API via PHP, you may find useful [this project](https://github.com/concretecms-community-store/community_store_api_client).
+
+## General Usage
+
 Once an integration has been created through concrete5's dashboard, the Client ID and Client Secret can be used to generate access tokens, and those are then used to access the API.
 
 Request access tokens by sending a POST request to the URL: `/oauth/2.0/token`, sending in the body:
@@ -51,6 +57,7 @@ Responses follow typical RESTful style HTTP response codes, such as 404 for not 
 ### Order related endpoints:
 
 #### GET /cs/api/v1/orders
+
 Get paginated orders
 - scope required: cs:orders:read
 - example response:
@@ -139,6 +146,7 @@ Get paginated orders
 ```
 
 ##### Paginating Orders
+
 Orders are returned with the most recent orders first, which is the same as the order ID in descending order.
 
 The orders are paginated, returning 20 orders at a time. Note in the response there is a `meta` -> `pagination` section, containing values representing the pagination position.
@@ -161,12 +169,14 @@ Here's a list of accepted querystring parameters:
 - `id`: the order ID. You can also query for more IDs using an array (for example: `orders?id[]=1&id[]=2`) (requires Community Store with [this pull request](https://github.com/concretecms-community-store/community_store/pull/833))
 
 #### GET /cs/api/v1/orders/oID
+
 Get an order
 - scope required: cs:orders:read
 - url parameters: oID = Order ID
 - response: JSON representing individual order, within `data` value
 
 #### PATCH /cs/api/v1/orders/oID
+
 Update fulfilment details of an an individual order
 - scope required: 'cs:orders:write
 - updatable fields: tracking_id, tracking_code, tracking_url, handle
@@ -187,6 +197,7 @@ Update fulfilment details of an an individual order
 - response: JSON representing individual order, within `data` value, after update performed
 
 #### GET /cs/api/v1/fulfilmentstatuses
+
 Get all fulfilment statuses
 - scope required: cs:orders:read
 - example response:
@@ -230,11 +241,13 @@ Get all fulfilment statuses
 ### Product related endpoints:
 
 #### GET /cs/api/v1/products
+
 Get all products
 - scope required: cs:products:read
 - response: JSON array of products, within `data` value
 
 ##### Paginating Products
+
 Products are returned with the most recently added products first.
 
 The products are paginated, returning 20 products at a time. Note in the response there is a `meta` -> `pagination` section, containing values representing the pagination position.
@@ -242,11 +255,13 @@ The `links` within the pagination data include when applicable previous and next
 The GET attribute `page` is used in the API call to select which page to return.
 
 ##### Filtering Products
+
 Products can be filtered through the use of a `filter` parameter, following the pattern:
 `?filter=date_added gt '2021-01-01T20:00'`
 Currently, `date_added` and `date_updated` fields can be filtered, with gt, lt and eq comparisons.
 
 #### GET /cs/api/v1/products/pID
+
 Get a product
 - scope required: cs:products:read
 - url parameters: pID = Product ID
@@ -293,6 +308,7 @@ Get a product
 ```
 
 #### PATCH /cs/api/v1/products/pID
+
 Update a product
 - updatable fields: stock_unlimited (boolean), stock_level (float)
 - scope required: cs:products:write
@@ -311,11 +327,13 @@ Update a product
  
 
 #### GET /cs/api/v1/skus/sku
+
 Get stock level of a product or variation, found via SKU 
 - scope required: cs:products:read
 - url parameters: sku = Product or Variation SKU
 
 #### PATCH /cs/api/v1/skus/sku
+
 Update the stock level of a product or variation by SKU
 - updatable fields: stock_unlimited (boolean), stock_level (float)
 - scope required: cs:products:write
@@ -331,10 +349,10 @@ Update the stock level of a product or variation by SKU
 }
 ```
 
-
 ### Miscellaneous endpoints
 
 #### GET /cs/api/v1/config
+
 Get some Comminity Store configuration value
 
 - scope required: cs:config:read
